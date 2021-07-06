@@ -481,6 +481,8 @@ def detect_key_press():
 
 
 def start():
+    thread = Thread(target = detect_key_press)
+    thread.start()
     global preset
     preset = int(input("Choose a preset:"))
     LoadSamples()
@@ -495,13 +497,11 @@ def start():
                 midi_in[-1].open_port(port)
                 print('Opened MIDI: ' + str(port))
         previous = midi_in[0].ports
-
+        curses.endwin()
         time.sleep(2)
-    curses.endwin()
+
 
 if __name__ == "__main__":
-    thread = Thread(target = detect_key_press)
-    thread.start()
     start()
 
 #########################################
