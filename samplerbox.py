@@ -516,7 +516,7 @@ def start():
         char = getch()
         if (char == "p"):
             start()
-            break
+            return False
     # curses.endwin()
     time.sleep(2)
 
