@@ -39,6 +39,9 @@ from chunk import Chunk
 import struct
 import rtmidi_python as rtmidi
 import samplerbox_audio
+from threading import Thread
+import curses
+
 
 
 #########################################
@@ -464,22 +467,40 @@ if USE_SERIALPORT_MIDI:
 #########################################
 
 preset = 7
-LoadSamples()
+key_pressed = False
 
+
+def detect_key_press():
+    global key_pressed
+    stdscr = curses.initscr()
+    key = stdscr.getch()
+    print(key)
+    if key == 112:
+        print("key w pressed\r")
+        key_pressed = True
+
+
+def start():
+    preset = int(input("Choose a preset:"))
+    LoadSamples()
+    midi_in = [rtmidi.MidiIn(b'in')]
+    previous = []
+    key_pressed = False
+    while True and not key_pressed:
+        for port in midi_in[0].ports:
+            if port not in previous and b'Midi Through' not in port:
+                midi_in.append(rtmidi.MidiIn(b'in'))
+                midi_in[-1].callback = MidiCallback
+                midi_in[-1].open_port(port)
+                print('Opened MIDI: ' + str(port))
+        previous = midi_in[0].ports
+
+        time.sleep(2)
+
+if __name__ == "__main__":
+    start()
 
 #########################################
 # MIDI DEVICES DETECTION
 # MAIN LOOP
 #########################################
-
-midi_in = [rtmidi.MidiIn(b'in')]
-previous = []
-while True:
-    for port in midi_in[0].ports:
-        if port not in previous and b'Midi Through' not in port:
-            midi_in.append(rtmidi.MidiIn(b'in'))
-            midi_in[-1].callback = MidiCallback
-            midi_in[-1].open_port(port)
-            print('Opened MIDI: ' + str(port))
-    previous = midi_in[0].ports
-    time.sleep(2)
