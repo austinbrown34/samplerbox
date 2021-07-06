@@ -466,7 +466,7 @@ if USE_SERIALPORT_MIDI:
 #
 #########################################
 
-preset = 7
+# preset = 7
 key_pressed = False
 
 
