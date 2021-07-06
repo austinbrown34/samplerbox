@@ -21,7 +21,7 @@ USE_SERIALPORT_MIDI = False             # Set to True to enable MIDI IN via Seri
 USE_I2C_7SEGMENTDISPLAY = False         # Set to True to use a 7-segment display via I2C
 USE_BUTTONS = False                     # Set to True to use momentary buttons (connected to RaspberryPi's GPIO pins) to change preset
 MAX_POLYPHONY = 80                      # This can be set higher, but 80 is a safe value
-
+USE_KEYPRESS = True
 
 #########################################
 # IMPORT
@@ -413,6 +413,31 @@ if USE_BUTTONS:
     ButtonsThread.start()
 
 
+
+if USE_KEYPRESS:
+    # import RPi.GPIO as GPIO
+
+    # lastbuttontime = 0
+
+    def Keypress():
+        # GPIO.setmode(GPIO.BCM)
+        # GPIO.setup(18, GPIO.IN, pull_up_down=GPIO.PUD_UP)
+        # GPIO.setup(17, GPIO.IN, pull_up_down=GPIO.PUD_UP)
+        global preset
+        while True:
+            char = getch()
+            if (char == "p"):
+                preset = int(input("Choose a preset:"))
+                LoadSamples()
+
+            time.sleep(0.020)
+
+    KeypressThread = threading.Thread(target=Keypress)
+    KeypressThread.daemon = True
+    KeypressThread.start()
+
+
+
 #########################################
 # 7-SEGMENT DISPLAY
 #
@@ -513,10 +538,7 @@ def start():
                 midi_in[-1].open_port(port)
                 print('Opened MIDI: ' + str(port))
         previous = midi_in[0].ports
-        char = getch()
-        if (char == "p"):
-            preset = int(input("Choose a preset:"))
-            LoadSamples()
+
             # return False
     # curses.endwin()
     # time.sleep(2)
