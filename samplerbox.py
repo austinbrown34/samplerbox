@@ -42,6 +42,7 @@ import samplerbox_audio
 from threading import Thread
 import curses
 import sys, termios, tty
+import re
 
 def getch():
     fd = sys.stdin.fileno()
@@ -504,7 +505,14 @@ def start():
     global preset
     # thread = Thread(target = detect_key_press)
     # thread.start()
-    preset = int(input("Choose a preset:"))
+    
+    samplesdir = SAMPLES_DIR if os.listdir(SAMPLES_DIR) else '.'
+    presets = [f for f in os.listdir(samplesdir) if re.match(r'^\d+ ', f)]
+    sorted_presets = sorted(
+        presets,
+        key=lambda item: (int(item.partition(' ')[0]) if item[0].isdigit() else float('inf'), item))
+    [print(p) for p in sorted_presets]
+    preset = int(input("Choose a preset: "))
     LoadSamples()
     midi_in = [rtmidi.MidiIn(b'in')]
     previous = []
@@ -523,7 +531,13 @@ def start():
             while True:
                 char = getch()
                 if (char == "p"):
-                    preset = int(input("Choose a preset:"))
+                    samplesdir = SAMPLES_DIR if os.listdir(SAMPLES_DIR) else '.'
+                    presets = [f for f in os.listdir(samplesdir) if re.match(r'^\d+ ', f)]
+                    sorted_presets = sorted(
+                        presets,
+                        key=lambda item: (int(item.partition(' ')[0]) if item[0].isdigit() else float('inf'), item))
+                    [print(p) for p in sorted_presets]
+                    preset = int(input("Choose a preset: "))
                     LoadSamples()
 
                 time.sleep(0.020)
