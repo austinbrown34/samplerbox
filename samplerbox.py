@@ -41,6 +41,18 @@ import rtmidi_python as rtmidi
 import samplerbox_audio
 from threading import Thread
 import curses
+import sys, termios, tty
+
+def getch():
+    fd = sys.stdin.fileno()
+    old_settings = termios.tcgetattr(fd)
+    try:
+        tty.setraw(sys.stdin.fileno())
+        ch = sys.stdin.read(1)
+
+    finally:
+        termios.tcsetattr(fd, termios.TCSADRAIN, old_settings)
+    return ch
 
 
 
@@ -467,37 +479,44 @@ if USE_SERIALPORT_MIDI:
 #########################################
 
 preset = 7
-key_pressed = False
 
 
-def detect_key_press():
-    global key_pressed
-    stdscr = curses.initscr()
-    key = stdscr.getch()
-    print(key)
-    if key == 112:
-        print("key w pressed\r")
-        key_pressed = True
+
+# key_pressed = False
+#
+#
+# def detect_key_press():
+#     global key_pressed
+#     stdscr = curses.initscr()
+#     key = stdscr.getch()
+#     print(key)
+#     if key == 112:
+#         print("key w pressed\r")
+#         key_pressed = True
 
 
 def start():
     global preset
-    thread = Thread(target = detect_key_press)
-    thread.start()
+    # thread = Thread(target = detect_key_press)
+    # thread.start()
     preset = int(input("Choose a preset:"))
     LoadSamples()
     midi_in = [rtmidi.MidiIn(b'in')]
     previous = []
     key_pressed = False
-    while not key_pressed:
-        while True:
-            for port in midi_in[0].ports:
-                if port not in previous and b'Midi Through' not in port:
-                    midi_in.append(rtmidi.MidiIn(b'in'))
-                    midi_in[-1].callback = MidiCallback
-                    midi_in[-1].open_port(port)
-                    print('Opened MIDI: ' + str(port))
-            previous = midi_in[0].ports
+
+    while True:
+        for port in midi_in[0].ports:
+            if port not in previous and b'Midi Through' not in port:
+                midi_in.append(rtmidi.MidiIn(b'in'))
+                midi_in[-1].callback = MidiCallback
+                midi_in[-1].open_port(port)
+                print('Opened MIDI: ' + str(port))
+        previous = midi_in[0].ports
+        char = getch()
+        if (char == "p"):
+            start()
+            break
     # curses.endwin()
     time.sleep(2)
 
