@@ -531,7 +531,7 @@ def start():
             while True:
                 char = getch()
                 if (char == "q"):
-                    exit()
+                    exit(0)
                 if (char == "p"):
                     samplesdir = SAMPLES_DIR if os.listdir(SAMPLES_DIR) else '.'
                     presets = [f for f in os.listdir(samplesdir) if re.match(r'^\d+ ', f)]
