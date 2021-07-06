@@ -505,7 +505,7 @@ def start():
     global preset
     # thread = Thread(target = detect_key_press)
     # thread.start()
-    
+
     samplesdir = SAMPLES_DIR if os.listdir(SAMPLES_DIR) else '.'
     presets = [f for f in os.listdir(samplesdir) if re.match(r'^\d+ ', f)]
     sorted_presets = sorted(
@@ -530,6 +530,8 @@ def start():
             global preset
             while True:
                 char = getch()
+                if (char == "q"):
+                    exit()
                 if (char == "p"):
                     samplesdir = SAMPLES_DIR if os.listdir(SAMPLES_DIR) else '.'
                     presets = [f for f in os.listdir(samplesdir) if re.match(r'^\d+ ', f)]
