@@ -501,8 +501,11 @@ preset = 7
 #         key_pressed = True
 
 
+this_sys = sys
+
 def start():
     global preset
+    global this_sys
     # thread = Thread(target = detect_key_press)
     # thread.start()
 
@@ -532,7 +535,7 @@ def start():
                 char = getch()
                 if (char == "q"):
                     print("Bye!")
-                    sys.exit(0)
+                    this_sys.exit(0)
                 if (char == "p"):
                     samplesdir = SAMPLES_DIR if os.listdir(SAMPLES_DIR) else '.'
                     presets = [f for f in os.listdir(samplesdir) if re.match(r'^\d+ ', f)]
