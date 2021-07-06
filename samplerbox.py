@@ -499,7 +499,10 @@ def start():
         time.sleep(2)
 
 if __name__ == "__main__":
+    thread = Thread(target = detect_key_press)
+    thread.start()
     start()
+    curses.endwin()
 
 #########################################
 # MIDI DEVICES DETECTION
