@@ -414,27 +414,7 @@ if USE_BUTTONS:
 
 
 
-if USE_KEYPRESS:
-    # import RPi.GPIO as GPIO
 
-    # lastbuttontime = 0
-
-    def Keypress():
-        # GPIO.setmode(GPIO.BCM)
-        # GPIO.setup(18, GPIO.IN, pull_up_down=GPIO.PUD_UP)
-        # GPIO.setup(17, GPIO.IN, pull_up_down=GPIO.PUD_UP)
-        global preset
-        while True:
-            char = getch()
-            if (char == "p"):
-                preset = int(input("Choose a preset:"))
-                LoadSamples()
-
-            time.sleep(0.020)
-
-    KeypressThread = threading.Thread(target=Keypress)
-    KeypressThread.daemon = True
-    KeypressThread.start()
 
 
 
@@ -528,7 +508,29 @@ def start():
     LoadSamples()
     midi_in = [rtmidi.MidiIn(b'in')]
     previous = []
-    key_pressed = False
+
+
+    if USE_KEYPRESS:
+        # import RPi.GPIO as GPIO
+
+        # lastbuttontime = 0
+
+        def Keypress():
+            # GPIO.setmode(GPIO.BCM)
+            # GPIO.setup(18, GPIO.IN, pull_up_down=GPIO.PUD_UP)
+            # GPIO.setup(17, GPIO.IN, pull_up_down=GPIO.PUD_UP)
+            global preset
+            while True:
+                char = getch()
+                if (char == "p"):
+                    preset = int(input("Choose a preset:"))
+                    LoadSamples()
+
+                time.sleep(0.020)
+
+        KeypressThread = threading.Thread(target=Keypress)
+        KeypressThread.daemon = True
+        KeypressThread.start()
 
     while True:
         for port in midi_in[0].ports:
