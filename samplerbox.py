@@ -515,10 +515,11 @@ def start():
         previous = midi_in[0].ports
         char = getch()
         if (char == "p"):
-            start()
-            return False
+            break
+            # return False
     # curses.endwin()
-    time.sleep(2)
+    # time.sleep(2)
+    start()
 
 
 if __name__ == "__main__":
