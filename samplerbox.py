@@ -515,7 +515,8 @@ def start():
         previous = midi_in[0].ports
         char = getch()
         if (char == "p"):
-            break
+            preset = int(input("Choose a preset:"))
+            LoadSamples()
             # return False
     # curses.endwin()
     # time.sleep(2)
