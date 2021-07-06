@@ -498,7 +498,7 @@ def start():
                     midi_in[-1].open_port(port)
                     print('Opened MIDI: ' + str(port))
             previous = midi_in[0].ports
-    curses.endwin()
+    # curses.endwin()
     time.sleep(2)
 
 
