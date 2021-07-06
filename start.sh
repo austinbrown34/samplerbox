@@ -1,3 +1,3 @@
 #!/bin/bash
-python3 samplerbox.py &
-/usr/bin/qjackctl &
+python3 samplerbox.py
+/usr/bin/qjackctl
