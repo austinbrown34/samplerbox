@@ -497,12 +497,12 @@ def start():
         previous = midi_in[0].ports
 
         time.sleep(2)
+    curses.endwin()
 
 if __name__ == "__main__":
     thread = Thread(target = detect_key_press)
     thread.start()
     start()
-    curses.endwin()
 
 #########################################
 # MIDI DEVICES DETECTION
