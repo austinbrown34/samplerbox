@@ -3,7 +3,7 @@ SamplerBox
 
 An open-source audio sampler project based on RaspberryPi.
 
-Website: [www.samplerbox.org](https://www.samplerbox.org)
+Website: www.samplerbox.org
 
 [![](http://gget.it/flurexml/1.jpg)](https://www.youtube.com/watch?v=yz7GZ8YOjTw)
 
@@ -15,18 +15,18 @@ SamplerBox works with the RaspberryPi's built-in soundcard, but it is recommende
 1. Install the required dependencies (Python-related packages and audio libraries):
 
   ~~~
-  sudo apt-get update ; sudo apt-get -y install git python-dev python-pip python-numpy cython python-smbus portaudio19-dev libportaudio2 libffi-dev
-  sudo pip install rtmidi-python pyaudio cffi sounddevice
+  sudo apt-get update ; sudo apt-get -y install git python3-dev python3-pip python3-numpy cython3 python3-smbus portaudio19-dev libportaudio2 libffi-dev
+  sudo pip3 install rtmidi-python pyaudio cffi sounddevice
   ~~~
 
 2. Download SamplerBox and build it with: 
 
   ~~~
   git clone https://github.com/josephernest/SamplerBox.git
-  cd SamplerBox ; sudo python setup.py build_ext --inplace
+  cd SamplerBox ; sudo python3 setup.py build_ext --inplace
   ~~~
 
-3. Run the soft with `python samplerbox.py`.
+3. Run the soft with `python3 samplerbox.py`.
 
 4. Play some notes on the connected MIDI keyboard, you'll hear some sound!  
 
@@ -49,16 +49,6 @@ The ready-to-use ISO images available on [www.samplerbox.org](http://www.sampler
 ----
 
 Author : Joseph Ernest (twitter: [@JosephErnest](http:/twitter.com/JosephErnest), mail: [contact@samplerbox.org](mailto:contact@samplerbox.org))
-
-
-[Sponsors and consulting](#sponsors)
-----
-
-I am available for Python, Data science, ML, Automation **consulting**. Please contact me on https://afewthingz.com for freelancing requests.
-
-Do you want to support the development of my open-source projects? Please contact me!
-
-I am currently sponsored by [CodeSigningStore.com](https://codesigningstore.com). Thank you to them for providing a DigiCert Code Signing Certificate and supporting open source software.
 
 
 [License](#license)
