@@ -466,7 +466,7 @@ if USE_SERIALPORT_MIDI:
 #
 #########################################
 
-# preset = 7
+preset = 7
 key_pressed = False
 
 
@@ -481,6 +481,7 @@ def detect_key_press():
 
 
 def start():
+    global preset
     preset = int(input("Choose a preset:"))
     LoadSamples()
     midi_in = [rtmidi.MidiIn(b'in')]
