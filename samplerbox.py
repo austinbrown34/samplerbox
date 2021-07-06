@@ -481,8 +481,6 @@ def detect_key_press():
 
 
 def start():
-    thread = Thread(target = detect_key_press)
-    thread.start()
     global preset
     preset = int(input("Choose a preset:"))
     LoadSamples()
@@ -502,6 +500,8 @@ def start():
 
 
 if __name__ == "__main__":
+    thread = Thread(target = detect_key_press)
+    thread.start()
     start()
 
 #########################################
