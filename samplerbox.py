@@ -482,26 +482,27 @@ def detect_key_press():
 
 def start():
     global preset
+    thread = Thread(target = detect_key_press)
+    thread.start()
     preset = int(input("Choose a preset:"))
     LoadSamples()
     midi_in = [rtmidi.MidiIn(b'in')]
     previous = []
     key_pressed = False
-    while True and not key_pressed:
-        for port in midi_in[0].ports:
-            if port not in previous and b'Midi Through' not in port:
-                midi_in.append(rtmidi.MidiIn(b'in'))
-                midi_in[-1].callback = MidiCallback
-                midi_in[-1].open_port(port)
-                print('Opened MIDI: ' + str(port))
-        previous = midi_in[0].ports
-        curses.endwin()
-        time.sleep(2)
+    while not key_pressed:
+        while True:
+            for port in midi_in[0].ports:
+                if port not in previous and b'Midi Through' not in port:
+                    midi_in.append(rtmidi.MidiIn(b'in'))
+                    midi_in[-1].callback = MidiCallback
+                    midi_in[-1].open_port(port)
+                    print('Opened MIDI: ' + str(port))
+            previous = midi_in[0].ports
+    curses.endwin()
+    time.sleep(2)
 
 
 if __name__ == "__main__":
-    thread = Thread(target = detect_key_press)
-    thread.start()
     start()
 
 #########################################
